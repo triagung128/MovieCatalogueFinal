@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import org.json.JSONObject;
 
-public class Movie implements Parcelable {
+public class TvShow implements Parcelable {
     private int id;
     private String backdrop;
     private String poster;
@@ -15,15 +15,15 @@ public class Movie implements Parcelable {
     private double rating;
     private String overview;
 
-    public Movie(JSONObject object, boolean isDetail) {
+    public TvShow(JSONObject object, boolean isDetail) {
         if (isDetail) {
             try {
                 int id = object.getInt("id");
-                String backdrop = object.getString("backdrop_path");
                 String poster = object.getString("poster_path");
-                String title = object.getString("title");
-                String release_date = object.getString("release_date");
-                String[] release_date_path = release_date.split("-");
+                String backdrop = object.getString("backdrop_path");
+                String title = object.getString("name");
+                String first_air_date = object.getString("first_air_date");
+                String[] first_air_date_part = first_air_date.split("-");
                 double vote_average = object.getDouble("vote_average");
                 String overview = object.getString("overview");
 
@@ -31,11 +31,10 @@ public class Movie implements Parcelable {
                 this.backdrop = "https://image.tmdb.org/t/p/w342/" + backdrop;
                 this.poster = "https://image.tmdb.org/t/p/w342/" + poster;
                 this.title = title;
-                this.date = release_date;
-                this.year = release_date_path[0];
+                this.date = first_air_date;
+                this.year = first_air_date_part[0];
                 this.rating = vote_average;
                 this.overview = overview;
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -44,16 +43,16 @@ public class Movie implements Parcelable {
             try {
                 int id = object.getInt("id");
                 String poster = object.getString("poster_path");
-                String title = object.getString("title");
-                String release_date = object.getString("release_date");
-                String[] part_release_date = release_date.split("-");
-                double vote_average = object.getDouble("vote_average");
+                String title = object.getString("name");
+                String first_air_date = object.getString("first_air_date");
+                String[] first_air_date_parts = first_air_date.split("-");
+                double rating = object.getDouble("vote_average");
 
                 this.id = id;
                 this.poster = "https://image.tmdb.org/t/p/w342/" + poster;
                 this.title = title;
-                this.year = part_release_date[0];
-                this.rating = vote_average;
+                this.year = first_air_date_parts[0];
+                this.rating = rating;
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -143,7 +142,7 @@ public class Movie implements Parcelable {
         dest.writeString(this.overview);
     }
 
-    protected Movie(Parcel in) {
+    protected TvShow(Parcel in) {
         this.id = in.readInt();
         this.backdrop = in.readString();
         this.poster = in.readString();
@@ -154,15 +153,15 @@ public class Movie implements Parcelable {
         this.overview = in.readString();
     }
 
-    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
+    public static final Parcelable.Creator<TvShow> CREATOR = new Parcelable.Creator<TvShow>() {
         @Override
-        public Movie createFromParcel(Parcel source) {
-            return new Movie(source);
+        public TvShow createFromParcel(Parcel source) {
+            return new TvShow(source);
         }
 
         @Override
-        public Movie[] newArray(int size) {
-            return new Movie[size];
+        public TvShow[] newArray(int size) {
+            return new TvShow[size];
         }
     };
 }

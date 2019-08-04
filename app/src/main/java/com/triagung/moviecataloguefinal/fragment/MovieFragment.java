@@ -50,6 +50,8 @@ public class MovieFragment extends Fragment {
         showLoading(true);
 
         setupViewModel();
+
+        showRecyclerView(view);
     }
 
     private void setupViewModel() {
@@ -61,8 +63,10 @@ public class MovieFragment extends Fragment {
     private final Observer<ArrayList<Movie>> getListMovie = new Observer<ArrayList<Movie>>() {
         @Override
         public void onChanged(@Nullable ArrayList<Movie> movies) {
-            movieAdapter.setData(movies);
-            showLoading(false);
+            if (movies != null) {
+                movieAdapter.setData(movies);
+                showLoading(false);
+            }
         }
     };
 
