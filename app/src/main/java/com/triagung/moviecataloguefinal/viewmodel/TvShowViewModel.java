@@ -21,7 +21,7 @@ public class TvShowViewModel extends ViewModel {
     private static final String API_KEY = BuildConfig.TMDB_API_KEY;
     private final MutableLiveData<ArrayList<TvShow>> listTvShows = new MutableLiveData<>();
 
-    public void setTvShow() {
+    public void setListTvShow() {
         AsyncHttpClient client = new AsyncHttpClient();
         final ArrayList<TvShow> listItems = new ArrayList<>();
         String url = "https://api.themoviedb.org/3/discover/tv?api_key="+ API_KEY +"&language=en-US";
@@ -53,7 +53,7 @@ public class TvShowViewModel extends ViewModel {
         });
     }
 
-    public LiveData<ArrayList<TvShow>> getTvShows() {
+    public LiveData<ArrayList<TvShow>> getListTvShows() {
         return listTvShows;
     }
 }

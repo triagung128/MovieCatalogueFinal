@@ -15,7 +15,7 @@ import com.triagung.moviecataloguefinal.model.Movie;
 
 import java.util.ArrayList;
 
-public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ListItemViewHolder> {
+public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
     private final Context mContext;
     private final ArrayList<Movie> mData = new ArrayList<>();
     private OnItemClickCallback mOnItemClickCallback;
@@ -36,18 +36,18 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ListItemView
 
     @NonNull
     @Override
-    public ListItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_list_grid, viewGroup, false);
-        return new ListItemViewHolder(view);
+        return new MovieViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ListItemViewHolder listItemViewHolder, int i) {
-        listItemViewHolder.bind(mData.get(i));
-        listItemViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+    public void onBindViewHolder(@NonNull final MovieViewHolder movieViewHolder, int i) {
+        movieViewHolder.bind(mData.get(i));
+        movieViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnItemClickCallback.onItemClicked(mData.get(listItemViewHolder.getAdapterPosition()));
+                mOnItemClickCallback.onItemClicked(mData.get(movieViewHolder.getAdapterPosition()));
             }
         });
     }
@@ -57,13 +57,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ListItemView
         return mData.size();
     }
 
-    class ListItemViewHolder extends RecyclerView.ViewHolder {
+    class MovieViewHolder extends RecyclerView.ViewHolder {
         private final ImageView imgPoster;
         private final TextView tvTitle;
         private final TextView tvYear;
         private final TextView tvRating;
 
-        ListItemViewHolder(@NonNull View itemView) {
+        MovieViewHolder(@NonNull View itemView) {
             super(itemView);
 
             imgPoster = itemView.findViewById(R.id.img_poster);
