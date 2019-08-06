@@ -1,4 +1,8 @@
 package com.triagung.moviecataloguefinal;
 
-public class LoadFavoriteMovieCallback {
+import android.database.Cursor;
+
+public interface LoadFavoriteMovieCallback {
+    void favoriteMoviePreExecute();
+    void favoriteMoviePostExecute(Cursor movieItems);
 }

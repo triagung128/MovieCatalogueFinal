@@ -1,43 +1,49 @@
 package com.triagung.moviecataloguefinal.fragment;
 
-
+import android.app.SearchManager;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.triagung.moviecataloguefinal.R;
+import com.triagung.moviecataloguefinal.activity.DetailActivity;
+import com.triagung.moviecataloguefinal.activity.SearchActivity;
 import com.triagung.moviecataloguefinal.adapter.MovieAdapter;
 import com.triagung.moviecataloguefinal.model.Movie;
 import com.triagung.moviecataloguefinal.viewmodel.MovieViewModel;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+import static com.triagung.moviecataloguefinal.database.DatabaseContract.MovieColumns.CONTENT_URI_MOVIE;
+
 public class MovieFragment extends Fragment {
     private MovieAdapter movieAdapter;
     private ProgressBar progressBar;
 
     public MovieFragment() {
-        // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_movie, container, false);
     }
 
@@ -82,7 +88,12 @@ public class MovieFragment extends Fragment {
         movieAdapter.setOnItemClickCallback(new MovieAdapter.OnItemClickCallback() {
             @Override
             public void onItemClicked(Movie movie) {
-                Toast.makeText(getActivity(), movie.getTitle(), Toast.LENGTH_SHORT).show();
+                Intent moveDetail = new Intent(getActivity(), DetailActivity.class);
+                Uri uri = Uri.parse(CONTENT_URI_MOVIE + "/" + movie.getId());
+                moveDetail.setData(uri);
+                moveDetail.putExtra(DetailActivity.EXTRA_TYPE, "movie");
+                moveDetail.putExtra(DetailActivity.EXTRA_ID, movie.getId());
+                startActivity(moveDetail);
             }
         });
     }
@@ -93,5 +104,34 @@ public class MovieFragment extends Fragment {
         } else {
             progressBar.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.options_menu, menu);
+
+        SearchManager searchManager = (SearchManager) Objects.requireNonNull(getActivity()).getSystemService(Context.SEARCH_SERVICE);
+        if (searchManager != null) {
+            SearchView searchView = (SearchView) (menu.findItem(R.id.search)).getActionView();
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(searchView.getContext(), SearchActivity.class)));
+            searchView.setQueryHint(getResources().getString(R.string.search_film));
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    Intent searchMovieIntent = new Intent(getActivity(), SearchActivity.class);
+                    searchMovieIntent.putExtra(SearchActivity.EXTRA_QUERY, query);
+                    searchMovieIntent.putExtra(SearchActivity.EXTRA_TYPE, "movie");
+                    startActivity(searchMovieIntent);
+                    return true;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String s) {
+                    return false;
+                }
+            });
+        }
+
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }

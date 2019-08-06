@@ -1,9 +1,16 @@
 package com.triagung.moviecataloguefinal.model;
 
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import org.json.JSONObject;
+
+import static android.provider.BaseColumns._ID;
+import static com.triagung.moviecataloguefinal.database.DatabaseContract.TvShowColumns;
+import static com.triagung.moviecataloguefinal.database.DatabaseContract.getColumnDouble;
+import static com.triagung.moviecataloguefinal.database.DatabaseContract.getColumnInt;
+import static com.triagung.moviecataloguefinal.database.DatabaseContract.getColumnString;
 
 public class TvShow implements Parcelable {
     private int id;
@@ -124,6 +131,30 @@ public class TvShow implements Parcelable {
         this.overview = overview;
     }
 
+    public TvShow() {
+    }
+
+    public TvShow(int id, String backdrop, String poster, String title, String date, String year, double rating, String overview) {
+        this.id = id;
+        this.backdrop = backdrop;
+        this.poster = poster;
+        this.title = title;
+        this.date = date;
+        this.year = year;
+        this.rating = rating;
+        this.overview = overview;
+    }
+
+    public TvShow(Cursor cursor) {
+        this.id = getColumnInt(cursor, _ID);
+        this.backdrop = getColumnString(cursor, TvShowColumns.BACKDROP);
+        this.poster = getColumnString(cursor, TvShowColumns.POSTER);
+        this.title = getColumnString(cursor, TvShowColumns.TITLE);
+        this.date = getColumnString(cursor, TvShowColumns.DATE);
+        this.year = getColumnString(cursor, TvShowColumns.YEAR);
+        this.rating = getColumnDouble(cursor, TvShowColumns.RATING);
+        this.overview = getColumnString(cursor, TvShowColumns.OVERVIEW);
+    }
 
     @Override
     public int describeContents() {

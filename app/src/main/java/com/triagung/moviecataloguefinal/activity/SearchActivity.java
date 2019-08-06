@@ -14,38 +14,53 @@ import android.widget.ProgressBar;
 
 import com.triagung.moviecataloguefinal.R;
 import com.triagung.moviecataloguefinal.adapter.MovieAdapter;
+import com.triagung.moviecataloguefinal.adapter.TvShowAdapter;
 import com.triagung.moviecataloguefinal.model.Movie;
+import com.triagung.moviecataloguefinal.model.TvShow;
 import com.triagung.moviecataloguefinal.viewmodel.SearchMovieViewModel;
+import com.triagung.moviecataloguefinal.viewmodel.SearchTvShowViewModel;
 
 import java.util.ArrayList;
 
 import static com.triagung.moviecataloguefinal.database.DatabaseContract.MovieColumns.CONTENT_URI_MOVIE;
+import static com.triagung.moviecataloguefinal.database.DatabaseContract.TvShowColumns.CONTENT_URI_TV_SHOW;
 
-public class SearchMovieActivity extends AppCompatActivity {
-    public static final String EXTRA_MOVIE_SEARCH = "extra_movie_search";
+public class SearchActivity extends AppCompatActivity {
+    public static final String EXTRA_QUERY = "extra_query";
+    public static final String EXTRA_TYPE = "extra_type";
 
     private MovieAdapter favoriteMovieAdapter;
+    private TvShowAdapter favoriteTvShowAdapter;
     private ProgressBar progressBar;
+
+    private String query;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_movie);
+        setContentView(R.layout.activity_search);
 
-        progressBar = findViewById(R.id.progress_bar_search_movie);
+        progressBar = findViewById(R.id.progress_bar_search);
+
+        query = getIntent().getStringExtra(EXTRA_QUERY);
 
         showLoading(true);
 
         setupActionBar();
 
-        setupViewModel();
+        String type = getIntent().getStringExtra(EXTRA_TYPE);
 
-        showRecyclerView();
+        if (type.equals("movie")) {
+            setupSearchMovieViewModel();
+            showSearchMovieRecyclerView();
+
+        } else {
+            setupSearchTvShowViewModel();
+            showSearchTvShowRecyclerView();
+        }
     }
 
-    private void setupViewModel() {
-        String query = getIntent().getStringExtra(EXTRA_MOVIE_SEARCH);
-
+    private void setupSearchMovieViewModel() {
         SearchMovieViewModel searchMovieViewModel = ViewModelProviders.of(this).get(SearchMovieViewModel.class);
         searchMovieViewModel.setSearchMovie(query);
         searchMovieViewModel.getSearchMovie().observe(this, getListMovie);
@@ -61,11 +76,27 @@ public class SearchMovieActivity extends AppCompatActivity {
         }
     };
 
-    private void showRecyclerView() {
+    private void setupSearchTvShowViewModel() {
+        SearchTvShowViewModel searchTvShowViewModel = ViewModelProviders.of(this).get(SearchTvShowViewModel.class);
+        searchTvShowViewModel.setSearchTvShow(query);
+        searchTvShowViewModel.getSearchTvShow().observe(this, getListTvShow);
+    }
+
+    private final Observer<ArrayList<TvShow>> getListTvShow = new Observer<ArrayList<TvShow>>() {
+        @Override
+        public void onChanged(@Nullable ArrayList<TvShow> tvShows) {
+            if (tvShows != null) {
+                favoriteTvShowAdapter.setData(tvShows);
+                showLoading(false);
+            }
+        }
+    };
+
+    private void showSearchMovieRecyclerView() {
         favoriteMovieAdapter = new MovieAdapter(this);
         favoriteMovieAdapter.notifyDataSetChanged();
 
-        RecyclerView rvListSearchMovie = findViewById(R.id.rv_list_search_movie);
+        RecyclerView rvListSearchMovie = findViewById(R.id.rv_list_search);
         rvListSearchMovie.setHasFixedSize(true);
         rvListSearchMovie.setLayoutManager(new GridLayoutManager(this, 2));
         rvListSearchMovie.setAdapter(favoriteMovieAdapter);
@@ -78,6 +109,28 @@ public class SearchMovieActivity extends AppCompatActivity {
                 moveDetail.setData(uri);
                 moveDetail.putExtra(DetailActivity.EXTRA_TYPE, "movie");
                 moveDetail.putExtra(DetailActivity.EXTRA_ID, movie.getId());
+                startActivity(moveDetail);
+            }
+        });
+    }
+
+    private void showSearchTvShowRecyclerView() {
+        favoriteTvShowAdapter = new TvShowAdapter(this);
+        favoriteTvShowAdapter.notifyDataSetChanged();
+
+        RecyclerView rvListSearchTvShow = findViewById(R.id.rv_list_search);
+        rvListSearchTvShow.setHasFixedSize(true);
+        rvListSearchTvShow.setLayoutManager(new GridLayoutManager(this, 2));
+        rvListSearchTvShow.setAdapter(favoriteTvShowAdapter);
+
+        favoriteTvShowAdapter.setOnItemClickCallback(new TvShowAdapter.OnItemClickCallback() {
+            @Override
+            public void onItemClicked(TvShow tvShow) {
+                Intent moveDetail = new Intent(getApplicationContext(), DetailActivity.class);
+                Uri uri = Uri.parse(CONTENT_URI_TV_SHOW + "/" + tvShow.getId());
+                moveDetail.setData(uri);
+                moveDetail.putExtra(DetailActivity.EXTRA_TYPE, "tv show");
+                moveDetail.putExtra(DetailActivity.EXTRA_ID, tvShow.getId());
                 startActivity(moveDetail);
             }
         });
