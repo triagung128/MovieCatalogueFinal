@@ -1,17 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:iconSpaceReserved="false">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:iconSpaceReserved="false">
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="@string/key_daily_reminder"
-        android:title="@string/daily_reminder"
-        android:iconSpaceReserved="false" />
+    <PreferenceCategory android:title="@string/notification">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_daily_reminder"
+            android:summary="@string/text_summary_daily_reminder"
+            android:textColor="@android:color/black"
+            android:title="@string/daily_reminder" />
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="@string/key_release_today_reminder"
-        android:title="@string/release_reminder"
-        android:iconSpaceReserved="false" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/key_release_today_reminder"
+            android:summary="@string/text_summary_release_today_reminder"
+            android:textColor="@android:color/black"
+            android:title="@string/release_reminder" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/language">
+        <Preference
+            android:key="@string/key_change_language"
+            android:summary="@string/text_summary_change_language"
+            android:textColor="@android:color/black"
+            android:title="@string/change_language" />
+    </PreferenceCategory>
 
 </PreferenceScreen>

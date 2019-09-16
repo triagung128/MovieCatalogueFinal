@@ -1,2 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="app_name">Movie Catalogue Final Sub</string>
+
+    <string name="movie">Film</string>
+    <string name="tv_show">Acara TV</string>
+    <string name="favorite">Favorit</string>
+
+    <string name="movie_catalogue">Katalog Film</string>
+    <string name="tv_show_catalogue">Katalog Acara TV</string>
+
+    <string name="dummy_title">Aquaman</string>
+    <string name="dummy_rating">7.5</string>
+    <string name="dummy_release_date">January 16, 2019</string>
+    <string name="dummy_release_year">2019</string>
+    <string name="dummy_year">2018</string>
+    <string name="dummy_overview">Seasoned musician Jackson Maine discovers - and falls in love with - struggling artist Ally. She has just about given up on her dream to make it big as a singer - until Jack coaxes her into the spotlight. But even as Ally\'s career takes off, the personal side of their relationship is breaking down, as Jack fights an ongoing battle with his own internal demons.</string>
+
+    <string name="image_poster">Gambar Poster</string>
+    <string name="image_backdrop">Gambar Backdrop</string>
+    <string name="image_favorite">Gambar Favorit</string>
+
+    <string name="overview">Sinopsis</string>
+    <string name="data_is_empty">Data kosong!</string>
+    <string name="add_to_favorites">Tambah ke favorit</string>
+    <string name="remove_from_favorite">Hapus dari favorit</string>
+
+    <string name="search_result">Hasil Pencarian</string>
+    <string name="search">Pencarian</string>
+    <string name="search_movie">Pencarian Film</string>
+    <string name="search_tv_show">Pencarian Acara TV</string>
+
+    <string name="appwidget_text">Favorite Movie Widget</string>
+    <string name="add_widget">Tambah Widget</string>
+    <string name="favorite_movie_widget">Favorite Movie Widget</string>
+    <string name="no_data">Tidak ada data</string>
+    <string name="settings">Pengaturan</string>
+
+    <string name="release_reminder">Pengingat Rilis Film Harian</string>
+    <string name="daily_reminder">Pengingat Harian</string>
+    <string name="change_language">Ganti Bahasa</string>
+
+    <string name="key_daily_reminder">key_daily_reminder</string>
+    <string name="key_release_today_reminder">key_release_today_reminder</string>
+    <string name="key_change_language">key_change_language</string>
+
+    <string name="message_daily_reminder">Kembali ke Aplikasi Movie Catalogue</string>
+    <string name="cancel_daily_reminder">Batalkan pengingat harian</string>
+
+    <string name="message_release_today_reminder">Pengingat Rilis Harian</string>
+    <string name="cancel_release_today_reminder">Batalkan pengingat rilis harian</string>
+
+    <string name="text_summary_daily_reminder">Pengingat untuk kembali ke aplikasi Movie Catalogue</string>
+    <string name="text_summary_release_today_reminder">Pengingat untuk menampilkan informasi film yang baru dirilis</string>
+    <string name="text_summary_change_language">Ganti bahasa pada aplikasi</string>
+
+    <string name="notification">Notifikasi</string>
+    <string name="language">Bahasa</string>
+
+    <string name="daily_reminder_set_up">Pengingat Harian disiapkan</string>
+    <string name="release_today_set_up">Pengingat Rilis Film Harian disiapkan</string>
+
+    <string name="has_release_today">telah dirilis hari ini!</string>
+    <string name="data_not_found">Data tidak ditemukan!</string>
+</resources>

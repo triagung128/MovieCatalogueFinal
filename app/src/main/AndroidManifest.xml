@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.triagung.moviecataloguefinal">
+    package="com.triagung.moviecataloguefinalsub">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <permission
-        android:name="com.triagung.moviecataloguefinal.READ_DATABASE"
+        android:name="com.triagung.moviecataloguefinalsub.READ_DATABASE"
         android:protectionLevel="normal" />
     <permission
-        android:name="com.triagung.moviecataloguefinal.WRITE_DATABASE"
+        android:name="com.triagung.moviecataloguefinalsub.WRITE_DATABASE"
         android:protectionLevel="normal" />
 
     <application
@@ -18,11 +20,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.SearchActivity"></activity>
+        <receiver android:name="com.triagung.moviecataloguefinalsub.receiver.ReminderReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver android:name="com.triagung.moviecataloguefinalsub.widget.FavoriteWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/favorite_widget_info" />
+        </receiver>
+
+        <activity android:name="com.triagung.moviecataloguefinalsub.activity.SearchActivity" />
         <activity
-            android:name=".activity.DetailActivity"
+            android:name="com.triagung.moviecataloguefinalsub.activity.DetailActivity"
             android:theme="@style/ActionBarTransparent" />
-        <activity android:name=".activity.MainActivity">
+        <activity android:name="com.triagung.moviecataloguefinalsub.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,11 +47,14 @@
         </activity>
 
         <provider
-            android:name=".provider.FavoriteProvider"
-            android:authorities="com.triagung.moviecataloguefinal"
+            android:name="com.triagung.moviecataloguefinalsub.provider.FavoriteProvider"
+            android:authorities="com.triagung.moviecataloguefinalsub"
             android:exported="true"
             android:readPermission="com.triagung.moviecataloguefinal.READ_DATABASE"
             android:writePermission="com.triagung.moviecataloguefinal.WRITE_DATABASE" />
+
+        <service android:name="com.triagung.moviecataloguefinalsub.widget.StackWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 
 </manifest>
